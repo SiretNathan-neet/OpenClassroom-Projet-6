@@ -12,6 +12,11 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Entité JPA représentant un utilisateur de l'application MDD.
+ * Correspond à la table "users" en base de données.
+ */
+
 @Entity
 @Table(name = "users")
 @Data
@@ -28,9 +33,14 @@ public class UserEntity {
     @Column(nullable = false, unique = true, length = 100)
     private String email;
 
+    /** Mot de passe encodé via BCrypt avant persistance. */
     @Column(nullable = false, length = 255)
     private String password;
 
+    /**
+     * Initialise automatiquement createdAt avant l'insertion en base.
+     * Évite de dépendre uniquement du DEFAULT NOW() côté MySQL.
+     */
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 

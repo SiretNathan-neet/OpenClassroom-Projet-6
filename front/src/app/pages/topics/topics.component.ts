@@ -31,6 +31,7 @@ export class TopicsComponent implements OnInit {
   public subscribe(topic: Topic): void {
     this.topicService.subscribe(topic.id).subscribe({
       next: () => {
+        /** Met à jour l'état de l'abonnement du thème localement*/
         topic.subscribed = true;
       },
       error: (error) => {

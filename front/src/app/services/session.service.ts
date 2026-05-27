@@ -11,6 +11,10 @@ export class SessionService {
   public isLogged = false;
   public user: User | undefined;
 
+  /**
+   * BehaviorSubject permettant aux composants de réagir 
+   * aux changements d'état de connexion en temps réel.
+   */
   private isLoggedSubject = new BehaviorSubject<boolean>(this.isLogged);
 
   public $isLogged(): Observable<boolean> {
@@ -23,6 +27,10 @@ export class SessionService {
     this.next();
   }
 
+  /**
+   * Connecte l'utilisateur à partir d'un token JWT.
+   * Stocke le token en localStorage pour faire persister la session.
+   */
   public logInWithToken(token: string): void {
     localStorage.setItem('token', token);
     this.isLogged = true;
@@ -36,6 +44,7 @@ export class SessionService {
     this.next();
   }
 
+  /** Notifie tous les observateurs du changement d'état de connexion. */
   private next(): void {
     this.isLoggedSubject.next(this.isLogged);
   }

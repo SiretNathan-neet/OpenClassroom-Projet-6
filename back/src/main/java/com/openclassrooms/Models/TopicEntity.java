@@ -8,6 +8,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 
+/**
+ * Clé primaire composite pour la table "subscriptions".
+ * Doit implémenter Serializable — exigence JPA pour les clés composites.
+ * La combinaison userId + topicId garantit l'unicité d'un abonnement.
+ */
+
 @Entity
 @Table(name = "topics")
 @Data

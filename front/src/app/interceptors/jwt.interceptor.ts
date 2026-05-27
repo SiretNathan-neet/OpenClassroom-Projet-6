@@ -11,6 +11,11 @@ export class JwtInterceptor implements HttpInterceptor {
     private sessionService: SessionService
   ) {}
 
+  /**
+   * Intercepte toutes les requêtes HTTP sortantes pour y injecter le token JWT.
+   * Gère également les réponses 401 (token expiré ou invalide) en déconnectant
+   * automatiquement l'utilisateur et en le redirigeant vers la page de login.
+   */
   public intercept(request: HttpRequest<any>, next: HttpHandler) {
     const token = localStorage.getItem('token');
 

@@ -14,8 +14,13 @@ import com.openclassrooms.DTO.Request.LoginRequestDTO;
 import com.openclassrooms.DTO.Request.RegisterRequestDTO;
 import com.openclassrooms.DTO.Response.AuthResponseDTO;
 import com.openclassrooms.Models.UserEntity;
+import com.openclassrooms.Services.TokenService;
 import com.openclassrooms.Services.UserService;
-import com.openclassrooms.Services.tokenService;
+
+/**
+ * Contrôleur gérant l'authentification des utilisateurs.
+ * Routes publiques — accessibles sans token JWT.
+ */
 
 @RestController
 @RequestMapping("/api/auth")
@@ -27,8 +32,13 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private tokenService tokenService;
+    private TokenService tokenService;
 
+    /**
+     * Inscrit un nouvel utilisateur et retourne un token JWT.
+     * L'authentification est déclenchée immédiatement après l'inscription
+     * pour éviter de redemander à l'utilisateur de se connecter manuellement.
+     */
     @PostMapping("/register")
     public ResponseEntity<AuthResponseDTO> register(@RequestBody RegisterRequestDTO request) {
 
@@ -45,6 +55,11 @@ public class AuthController {
         return ResponseEntity.ok(new AuthResponseDTO(token));
     }
 
+    /**
+     * Authentifie un utilisateur via email ou username et retourne un token JWT.
+     * L'identifier est résolu par CustomUserDetailsService qui cherche
+     * par email OU par username via findByEmailOrUsername.
+     */
     @PostMapping("/login")
     public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginRequestDTO request) {
 

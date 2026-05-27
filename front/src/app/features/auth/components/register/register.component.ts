@@ -17,9 +17,13 @@ export class RegisterComponent {
 
   public form = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
-    username: ['', [Validators.required, Validators.min(3)]],
+    username: ['', [Validators.required, Validators.minLength(3)]],
     password: ['', [Validators.required, 
-                    Validators.min(8), 
+                    Validators.minLength(8),
+                    /**
+                     * Valide le mot de passe côté client avant envoi au back-end.
+                     * Règles : 8 caractères min, 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial.
+                    */ 
                     Validators.pattern(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])[A-Za-z\d\S]{8,}$/)  
     ]]
   });

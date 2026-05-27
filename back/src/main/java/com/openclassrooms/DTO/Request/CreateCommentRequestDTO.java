@@ -1,8 +1,8 @@
 package com.openclassrooms.DTO.Request;
 
+import lombok.Data;
+
+@Data
 public class CreateCommentRequestDTO {
     private String content;
-
-    public String getContent() { return content; }
-    public void setContent(String content) { this.content = content; }
 }

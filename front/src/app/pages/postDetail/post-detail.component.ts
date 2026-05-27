@@ -25,6 +25,7 @@ export class PostDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    /** Récupère l'ID du post à partir de l'URL */
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.postService.getPostById(id).subscribe({
       next: (post: PostDetail) => {
@@ -44,6 +45,7 @@ export class PostDetailComponent implements OnInit {
 
     this.postService.addComment(this.post.id, { content }).subscribe({
       next: (comment: PostComment) => {
+        /** Ajoute le commentaire à la liste locale sans recharger la page */
         this.post!.comments.push(comment);
         this.commentForm.reset();
       },

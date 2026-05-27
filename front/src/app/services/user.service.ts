@@ -19,16 +19,4 @@ export class UserService {
   public updateMe(request: { username?: string; email?: string; password?: string }): Observable<User> {
     return this.httpClient.put<User>(`${this.pathService}/me`, request);
   }
-
-  public getUserById(id: number): Observable<User> {
-    return this.httpClient.get<User>(`${this.pathService}/${id}`);
-  }
-
-  public getUserbyEmail(email: string): Observable<User> {
-    return this.httpClient.get<User>(`${this.pathService}/email/${email}`); 
-  }
-
-  public getUserByUsername(username: string): Observable<User> {
-    return this.httpClient.get<User>(`${this.pathService}/username/${username}`); 
-  } 
 }

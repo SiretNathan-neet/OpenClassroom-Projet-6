@@ -17,8 +17,13 @@ import com.openclassrooms.DTO.Request.CreatePostRequestDTO;
 import com.openclassrooms.DTO.Response.CommentResponseDTO;
 import com.openclassrooms.DTO.Response.PostDetailResponseDTO;
 import com.openclassrooms.DTO.Response.PostResponseDTO;
-import com.openclassrooms.Models.CommentEntity;
 import com.openclassrooms.Services.PostService;
+
+/**
+     * Authentifie un utilisateur via email ou username et retourne un token JWT.
+     * L'identifier est résolu par CustomUserDetailsService qui cherche
+     * par email OU par username via findByEmailOrUsername.
+     */
 
 @RestController
 @RequestMapping("/api/posts")
@@ -27,6 +32,12 @@ public class PostController {
     @Autowired
     private PostService postService;
 
+    /**
+     * Retourne le fil d'actualité de l'utilisateur connecté.
+     * Filtre uniquement les articles des thèmes auxquels il est abonné.
+     *
+     * @param sort ordre de tri — "desc" (défaut) ou "asc"
+     */
     @GetMapping("/feed")
     public ResponseEntity<List<PostResponseDTO>> getFeed(
         @RequestParam(defaultValue = "desc") String sort) {

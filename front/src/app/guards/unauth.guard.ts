@@ -11,6 +11,10 @@ export class UnauthGuard implements CanActivate {
   ) {
   }
 
+  /**
+   * Empêche un utilisateur déjà connecté d'accéder aux pages publiques (login, register) et le redirige vers le feed.
+   * L'utilisateur peut toujours accéder à ces pages en se déconnectant.
+   */
   public canActivate(): boolean {
     if (this.sessionService.isLogged) {
       this.router.navigate(['feed']);

@@ -34,7 +34,8 @@ export class FeedComponent implements OnInit {
       }
     });
   }
-
+  
+  /** Inverse le tri et recharge le feed. */
   public toggleSort(): void {
     this.sort = this.sort === 'desc' ? 'asc' : 'desc';
     this.loadFeed();
