@@ -14,6 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.openclassrooms.DTO.Response.TopicResponseDTO;
 import com.openclassrooms.Services.TopicService;
 
+/**
+ * Contrôleur gérant les thèmes et les abonnements.
+ * Routes protégées — nécessitent un token JWT valide.
+ */
+
 @RestController
 @RequestMapping("/api/topics")
 public class TopicController {
@@ -38,6 +43,10 @@ public class TopicController {
         return ResponseEntity.ok().build();
     }
 
+    /**
+    * Contrôleur gérant les thèmes et les abonnements.
+    * Routes protégées — nécessitent un token JWT valide.
+    */
     @GetMapping("/me")
     public ResponseEntity<List<TopicResponseDTO>> getTopicsForCurrentUser() {
         return ResponseEntity.ok(topicService.getUserSubscriptions());

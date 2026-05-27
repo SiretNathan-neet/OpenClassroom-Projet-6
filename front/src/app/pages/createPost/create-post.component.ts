@@ -43,6 +43,7 @@ export class CreatePostComponent implements OnInit {
     if (this.form.invalid) return;
 
     const request = {
+      /** topicId est stocké comme string dans le formulaire — conversion explicite en number */ 
       topicId: Number(this.form.value.topicId),
       title: this.form.value.title as string,
       content: this.form.value.content as string

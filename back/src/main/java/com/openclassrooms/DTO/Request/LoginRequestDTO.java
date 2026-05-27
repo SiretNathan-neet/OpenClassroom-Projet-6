@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class LoginRequestDTO {
-    private String identifier; /* Email ou nom d'utilisateur */
+    /** Email ou nom d'utilisateur - Résolu par CustomUserDetailsService */
+    private String identifier; 
     private String password;
 }

@@ -13,6 +13,12 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.Data;
 
+/**
+ * Entité JPA représentant un article publié sur MDD.
+ * Un article est associé à un auteur et un thème.
+ * L'auteur et la date sont définis automatiquement à la création.
+ */
+
 @Entity
 @Table(name = "posts")  
 @Data
@@ -39,6 +45,11 @@ public class PostEntity {
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
+    /**
+    * Entité JPA représentant un article publié sur MDD.
+    * Un article est associé à un auteur et un thème.
+    * L'auteur et la date sont définis automatiquement à la création.
+    */
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();

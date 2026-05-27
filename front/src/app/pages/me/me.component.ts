@@ -22,6 +22,7 @@ export class MeComponent implements OnInit {
   public form = this.fb.group({
     username: ['', [Validators.required, Validators.minLength(3)]],
     email: ['', [Validators.required, Validators.email]],
+    /** Le mot de passe est optionnel — null si l'utilisateur ne souhaite pas le modifier. */
     password: [''] 
   });
 
@@ -42,6 +43,7 @@ export class MeComponent implements OnInit {
     this.userService.getMe().subscribe({
       next: (user: User) => {
         this.user = user;
+        /** Pré-remplit le formulaire avec les données de l'utilisateur */
         this.form.patchValue({
           username: user.username,
           email: user.email,
@@ -68,6 +70,7 @@ export class MeComponent implements OnInit {
   public unsubscribe(topic: Topic): void {
     this.topicService.unsubscribe(topic.id).subscribe({
       next: () => {
+        /** Supprime le thème de la liste locale sans recharger la page */
         this.subscriptions = this.subscriptions.filter(s => s.id !== topic.id);
       },
       error: (error) => {
@@ -84,6 +87,7 @@ export class MeComponent implements OnInit {
       email: this.form.value.email,
     };
 
+    /** N'envoie le mot de passe que si l'utilisateur l'a modifié */
     if (this.form.value.password) {
       request.password = this.form.value.password;
     }

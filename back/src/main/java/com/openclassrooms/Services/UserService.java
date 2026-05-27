@@ -15,6 +15,10 @@ import com.openclassrooms.Exceptions.AlreadyUsedException;
 import com.openclassrooms.Models.UserEntity;
 import com.openclassrooms.Repositories.UserRepository;
 
+/**
+ * Service gérant la logique métier des utilisateurs.
+ */
+
 @Service
 public class UserService {
     
@@ -24,6 +28,14 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    /**
+     * Valide le mot de passe selon les critères suivants :
+     * - Minimum 8 caractères
+     * - Au moins une lettre majuscule
+     * - Au moins une lettre minuscule
+     * - Au moins un chiffre
+     * - Au moins un caractère spécial
+     */
     private boolean isValidPassword(String password) {
         String pattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$";
         return password.matches(pattern);
@@ -61,6 +73,10 @@ public class UserService {
         return user.get();
     }
 
+    /**
+     * Récupère le profil de l'utilisateur connecté.
+     * L'email est extrait du token JWT via le SecurityContext.
+     */
     public UserResponseDTO getMe() {
         String email = SecurityContextHolder.getContext()
                                             .getAuthentication()

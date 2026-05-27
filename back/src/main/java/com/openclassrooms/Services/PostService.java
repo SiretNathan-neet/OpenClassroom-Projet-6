@@ -23,6 +23,9 @@ import com.openclassrooms.Repositories.SubscriptionRepository;
 import com.openclassrooms.Repositories.TopicRepository;
 import com.openclassrooms.Repositories.UserRepository;
 
+/**
+ * Service gérant la logique métier des articles et commentaires.
+ */
 @Service
 public class PostService {
 
@@ -41,6 +44,10 @@ public class PostService {
     @Autowired
     private CommentRepository commentRepository;
 
+    /**
+     * Récupère l'utilisateur connecté depuis le SecurityContext.
+     * Le nom stocké dans le token JWT correspond à l'email de l'utilisateur.
+     */
     private UserEntity getCurrentUser() {
         String email = SecurityContextHolder.getContext()
                                             .getAuthentication()
@@ -49,6 +56,10 @@ public class PostService {
             .orElseThrow(() -> new RuntimeException("Utilisateur introuvable"));
     }
 
+    /**
+     * Convertit un PostEntity en PostResponseDTO.
+     * Évite d'exposer l'entité directement dans les réponses API.
+     */
     private PostResponseDTO toDTO(PostEntity post) {
         PostResponseDTO dto = new PostResponseDTO();
         dto.setId(post.getId());
@@ -60,6 +71,12 @@ public class PostService {
         return dto;
     }
 
+    /**
+     * Retourne le fil d'actualité de l'utilisateur connecté.
+     * Filtre uniquement les articles des thèmes auxquels il est abonné.
+     *
+     * @param sort "desc" pour du plus récent au plus ancien (défaut), "asc" pour l'inverse
+     */
     public List<PostResponseDTO> getFeed(String sort) {
         UserEntity user = getCurrentUser();
 
@@ -84,10 +101,6 @@ public class PostService {
     }
 
     public PostResponseDTO createPost(CreatePostRequestDTO request) {
-
-        System.out.println("topicId reçu : " + request.getTopicId());
-        System.out.println("title reçu : " + request.getTitle());
-        System.out.println("content reçu : " + request.getContent());
         
         UserEntity author = getCurrentUser();
 

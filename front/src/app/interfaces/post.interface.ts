@@ -14,6 +14,9 @@ export interface PostComment {
     createdAt: Date;
 }
 
+/** Étend Post avec la liste des commentaires
+ * utilisé sur la page de détail d'un article. 
+ */
 export interface PostDetail extends Post {
     comments: PostComment[];
 }

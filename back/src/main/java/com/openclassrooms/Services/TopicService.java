@@ -16,6 +16,10 @@ import com.openclassrooms.Repositories.SubscriptionRepository;
 import com.openclassrooms.Repositories.TopicRepository;
 import com.openclassrooms.Repositories.UserRepository;
 
+/**
+ * Service gérant la logique métier des thèmes et abonnements.
+ */
+
 @Service
 public class TopicService {
 
@@ -28,6 +32,10 @@ public class TopicService {
     @Autowired
     private UserRepository userRepository;
 
+    /**
+     * Récupère l'utilisateur connecté depuis le SecurityContext.
+     * Le nom stocké dans le token JWT correspond à l'email de l'utilisateur.
+     */
     private UserEntity getCurrentUser() {
         String email = SecurityContextHolder.getContext()
                                             .getAuthentication()
@@ -36,7 +44,11 @@ public class TopicService {
                              .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
     }
 
-    /* Récupération de tous les thèmes auxquels un utilisateur peut s'abonner */
+    /**
+     * Retourne tous les thèmes disponibles avec le statut d'abonnement
+     * de l'utilisateur connecté pour chacun d'eux.
+     * Utilise existsById avec la clé composite pour éviter une requête supplémentaire.
+     */
     public List<TopicResponseDTO> getAllTopics() {
         UserEntity currentUser = getCurrentUser();
         List<TopicEntity> topics = topicRepository.findAll();
@@ -54,7 +66,11 @@ public class TopicService {
         }).collect(Collectors.toList());
     }
 
-    /* Abonnement à un thème */
+    /**
+     * Abonne l'utilisateur connecté à un thème.
+     * Vérifie l'existence de l'abonnement avant insertion
+     * pour éviter une violation de contrainte de clé primaire.
+     */
     public void subscribe(Integer topicId) {
     try {
         UserEntity user = getCurrentUser();
@@ -72,12 +88,12 @@ public class TopicService {
             subscription.setTopic(topic);
             subscriptionRepository.save(subscription);
         }
-    } catch (Exception e) {
-        System.out.println("ERREUR SUBSCRIBE : " + e.getMessage());
-        e.printStackTrace();
-        throw e;
+        } catch (Exception e) {
+            System.out.println("ERREUR SUBSCRIBE : " + e.getMessage());
+            e.printStackTrace();
+            throw e;
+            }
     }
-}
 
     /* Désabonnement d'un thème */
     public void unsubscribeFromTopic(Integer topicId) {

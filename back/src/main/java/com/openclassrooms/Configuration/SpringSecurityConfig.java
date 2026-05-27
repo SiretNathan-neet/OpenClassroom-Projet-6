@@ -27,10 +27,20 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import com.nimbusds.jose.jwk.source.ImmutableSecret;
 import com.openclassrooms.Services.CustomUserDetailsService;
 
+/**
+ * Configuration Spring Security de l'application MDD.
+ * Définit deux filter chains séparées : une pour les routes publiques et une pour les routes protégées par JWT.
+ */
+
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfig {
 
+    /**
+     * Configuration Spring Security de l'application MDD.
+     * Définit deux filter chains séparées : une pour les routes publiques,
+     * une pour les routes protégées par JWT.
+     */
     @Value("${jwt.key}")
     private String jwtKey;
     private final CustomUserDetailsService customUserDetailsService;
@@ -39,7 +49,10 @@ public class SpringSecurityConfig {
         this.customUserDetailsService = customUserDetailsService;
     }
 
-    /* Filter chain pour les endpoints publics */
+    /**
+     * Filter chain pour les endpoints publics
+     * SecurityMatcher est utilisé pour appliquer cette configuration uniquement aux routes d'authentification.
+     */
     @Bean
     @Order(1)
     public SecurityFilterChain publicFilterChain(HttpSecurity http) throws Exception {
@@ -52,7 +65,10 @@ public class SpringSecurityConfig {
                 .build();
     }
 
-    /* Filter chain pour les endpoints privés */
+    /**
+     * Filter chain pour les endpoints privés 
+     * SessionCreationPolicy est défini sur STATELESS pour indiquer que l'application ne gère pas de sessions côté serveur.
+     */
     @Bean
     @Order(2)
     public SecurityFilterChain privateFilterChain(HttpSecurity http) throws Exception {
@@ -65,6 +81,10 @@ public class SpringSecurityConfig {
                 .build();
     }
 
+    /**
+     * Configuration CORS autorisant les requêtes depuis Angular (localhost:4200).
+     * Nécessaire car le front-end et le back-end tournent sur des ports différents.
+     */
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
@@ -87,7 +107,10 @@ public class SpringSecurityConfig {
         return builder.build();
     }
 
-    /* Décodeur JWT */
+    /** 
+     * Décodeur JWT utilisant l'algorithme HS256 avec la clé secrètre définie dans application.properties.
+     * Le secret est converti en SecretKeySpec pour être compatible avec NimbusJwtDecoder.
+     */
     @Bean
     public JwtDecoder jwtDecoder() {
         SecretKeySpec secretKey = new SecretKeySpec(this.jwtKey.getBytes(), 0, this.jwtKey.getBytes().length, "RSA");

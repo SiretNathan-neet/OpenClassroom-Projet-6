@@ -12,6 +12,12 @@ export class PostService {
 
   constructor(private httpClient: HttpClient) {}
 
+
+  /**
+   * Retourne le fil d'actualité de l'utilisateur connecté.
+   * Filtre les articles par thèmes auxquels il est abonné.
+   * @param sort 'desc' (défaut) ou 'asc'
+   */
   public getFeed(sort: string = 'desc'): Observable<Post[]> {
     return this.httpClient.get<Post[]>(`${this.pathService}/feed?sort=${sort}`);
   }

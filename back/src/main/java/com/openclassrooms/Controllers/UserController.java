@@ -11,6 +11,11 @@ import com.openclassrooms.DTO.Request.UpdateUserRequestDTO;
 import com.openclassrooms.DTO.Response.UserResponseDTO;
 import com.openclassrooms.Services.UserService;
 
+/**
+ * Contrôleur gérant les thèmes et les abonnements.
+ * Routes protégées — nécessitent un token JWT valide.
+ */
+
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
