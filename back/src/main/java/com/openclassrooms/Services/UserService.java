@@ -12,6 +12,7 @@ import com.openclassrooms.DTO.Request.RegisterRequestDTO;
 import com.openclassrooms.DTO.Request.UpdateUserRequestDTO;
 import com.openclassrooms.DTO.Response.UserResponseDTO;
 import com.openclassrooms.Exceptions.AlreadyUsedException;
+import com.openclassrooms.Exceptions.NotFoundException;
 import com.openclassrooms.Models.UserEntity;
 import com.openclassrooms.Repositories.UserRepository;
 
@@ -83,7 +84,7 @@ public class UserService {
                                             .getName();  
         
         UserEntity user = userRepository.findByEmail(email)
-        .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+        .orElseThrow(() -> new NotFoundException("Utilisateur introuvable"));
 
         UserResponseDTO response = new UserResponseDTO();
         response.setId(user.getId());
@@ -99,7 +100,7 @@ public class UserService {
                                             .getName();  
         
         UserEntity user = userRepository.findByEmail(email)
-        .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+        .orElseThrow(() -> new NotFoundException("Utilisateur introuvable"));
 
         if (request.getUsername() != null) {
             user.setUsername(request.getUsername());

@@ -8,6 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.openclassrooms.DTO.Response.TopicResponseDTO;
+import com.openclassrooms.Exceptions.NotFoundException;
 import com.openclassrooms.Models.SubscriptionEntity;
 import com.openclassrooms.Models.SubscriptionId;
 import com.openclassrooms.Models.TopicEntity;
@@ -41,7 +42,7 @@ public class TopicService {
                                             .getAuthentication()
                                             .getName();  
         return userRepository.findByEmail(email)
-                             .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+                             .orElseThrow(() -> new NotFoundException("Utilisateur introuvable"));
     }
 
     /**
@@ -75,7 +76,7 @@ public class TopicService {
     try {
         UserEntity user = getCurrentUser();
         TopicEntity topic = topicRepository.findById(topicId)
-            .orElseThrow(() -> new RuntimeException("Thème introuvable"));
+            .orElseThrow(() -> new NotFoundException("Thème introuvable"));
 
         SubscriptionId subId = new SubscriptionId();
         subId.setUserId(user.getId());

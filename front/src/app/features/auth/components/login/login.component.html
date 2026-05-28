@@ -36,9 +36,9 @@
         </mat-error>
       </div>
 
-      <mat-error *ngIf="onError">
-        Identifiant ou mot de passe incorrect
-      </mat-error>
+      <span class="error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </span>
 
       <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
         Se connecter

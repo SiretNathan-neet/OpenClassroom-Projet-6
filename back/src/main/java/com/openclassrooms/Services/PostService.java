@@ -12,6 +12,7 @@ import com.openclassrooms.DTO.Request.CreatePostRequestDTO;
 import com.openclassrooms.DTO.Response.CommentResponseDTO;
 import com.openclassrooms.DTO.Response.PostDetailResponseDTO;
 import com.openclassrooms.DTO.Response.PostResponseDTO;
+import com.openclassrooms.Exceptions.NotFoundException;
 import com.openclassrooms.Models.CommentEntity;
 import com.openclassrooms.Models.PostEntity;
 import com.openclassrooms.Models.SubscriptionEntity;
@@ -53,7 +54,7 @@ public class PostService {
                                             .getAuthentication()
                                             .getName();
         return userRepository.findByEmail(email)
-            .orElseThrow(() -> new RuntimeException("Utilisateur introuvable"));
+            .orElseThrow(() -> new NotFoundException("Utilisateur introuvable"));
     }
 
     /**
@@ -105,7 +106,7 @@ public class PostService {
         UserEntity author = getCurrentUser();
 
         TopicEntity topic = topicRepository.findById(request.getTopicId())
-            .orElseThrow(() -> new RuntimeException("Thème introuvable"));
+            .orElseThrow(() -> new NotFoundException("Thème introuvable"));
         
         PostEntity post = new PostEntity();
         post.setAuthor(author);
@@ -119,7 +120,7 @@ public class PostService {
 
     public PostDetailResponseDTO getPostById(Integer id) {
         PostEntity post = postRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Article introuvable"));
+            .orElseThrow(() -> new NotFoundException("Article introuvable"));
 
         List<CommentResponseDTO> comments = commentRepository
             .findByPostOrderByCreatedAtAsc(post)
@@ -150,7 +151,7 @@ public class PostService {
         UserEntity author = getCurrentUser();
 
         PostEntity post = postRepository.findById(postId)
-            .orElseThrow(() -> new RuntimeException("Article introuvable"));
+            .orElseThrow(() -> new NotFoundException("Article introuvable"));
 
         CommentEntity comment = new CommentEntity();
         comment.setAuthor(author);

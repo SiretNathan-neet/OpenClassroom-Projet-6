@@ -4,6 +4,7 @@ import { FormBuilder, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { SessionService } from "src/app/services/session.service";
 import { AuthSuccess } from "../../interfaces/AuthSuccess.interface";
+import { HttpErrorResponse } from "@angular/common/http";
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,7 @@ import { AuthSuccess } from "../../interfaces/AuthSuccess.interface";
 })
 export class LoginComponent {
 
-  public onError = false;
+  public errorMessage: string = '';
 
   public form = this.fb.group({
     identifier: ['', [Validators.required]],
@@ -34,8 +35,12 @@ export class LoginComponent {
         this.sessionService.logInWithToken(response.token);
         this.router.navigate(['/feed']);
       },
-      error: () => {
-        this.onError = true;
+      error: (error: HttpErrorResponse) => {
+        if (error.status === 400 || error.status === 401) {
+          this.errorMessage = "Identifiants ou mot de passe incorrect.";
+        } else {
+          this.errorMessage = "Une erreur inattendue est survenue.";
+        }
       }
     });
   }
