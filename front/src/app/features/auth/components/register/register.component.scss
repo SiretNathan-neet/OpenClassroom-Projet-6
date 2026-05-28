@@ -19,6 +19,11 @@
     display: none;
   }
 
+  .error-message {
+  color: #e53935;
+  font-size: 13px;
+  }
+
   .content {
     display: flex;
     flex-direction: column;
